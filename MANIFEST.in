@@ -1,0 +1,3 @@
+recursive-include irisclassifier/data/ *.csv
+recursive-include irisclassifier/data/ *.json
+recursive-include irisclassifier/ *.conf
