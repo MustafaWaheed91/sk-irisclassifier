@@ -4,7 +4,6 @@
 import os
 import json
 import pickle
-import StringIO
 import sys
 import signal
 import traceback
