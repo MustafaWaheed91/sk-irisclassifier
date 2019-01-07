@@ -73,6 +73,9 @@ def transformation():
         return flask.Response(response='This predictor only supports JSON data', status=415, mimetype='text/plain')
 
     predictions = ScoringService.predict(X_val)
-    result = json.dumps({"prediction": predictions[[0]]})
+    print(predictions)
+    print(type(predictions))
+    print(predictions[0])
+    result = json.dumps({"prediction": str(predictions[0])})
 
     return flask.Response(response=result, status=200, mimetype='application/json')
