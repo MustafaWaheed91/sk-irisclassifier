@@ -1,0 +1,5 @@
+Exception during training: write() argument must be str, not bytes
+Traceback (most recent call last):
+  File "irisclassifier/train.py", line 55, in entry_point
+    pickle.dump(clf, out)
+TypeError: write() argument must be str, not bytes

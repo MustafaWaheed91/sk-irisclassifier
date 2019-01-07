@@ -30,10 +30,6 @@ def entry_point():
 
     """
 
-
-    # load training data set from csv file
-    training_data_df = pd.read_csv(paths.input('training', 'sales_data_training.csv'), dtype=float)
-
     print('Starting the training.')
     try:
         hyper_params = read_config_file('hyperparameters.json')
@@ -46,21 +42,21 @@ def entry_point():
         train_y = train_data.ix[:,0]
         train_X = train_data.ix[:,1:]
 
-
         # Now use scikit-learn's decision tree classifier to train the model.
         clf = tree.DecisionTreeClassifier(max_leaf_nodes=max_leaf_nodes)
         clf = clf.fit(train_X, train_y)
 
         # save the model
-        with open(paths.model('decision-tree-model.pkl'), 'w') as out:
+        with open(paths.model('decision-tree-model.pkl'), 'wb') as out:
             pickle.dump(clf, out)
+
             print('Training complete.')
     except Exception as e:
         # Write out an error file. This will be returned as the failureReason in the
         # DescribeTrainingJob result.
         trc = traceback.format_exc()
-        with open(paths.out('failure'), 'w') as s:
-            s.write('Exception during training: ' + str(e) + '\n' + trc)
+        with open(paths.failure(), 'w') as s:
+            s.write('Exception during training: ' + str(e) + str('\n') + trc)
 
         print('Exception during training: ' + str(e) + '\n' + trc, file=sys.stderr)
         # A non-zero exit code causes the training job to be marked as Failed.

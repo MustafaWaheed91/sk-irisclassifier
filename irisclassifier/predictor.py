@@ -26,7 +26,7 @@ class ScoringService(object):
     def get_model(cls):
         """Get the model object for this instance, loading it if it's not already loaded."""
         if cls.model == None:
-            with open(paths.model('decision-tree-model.pkl'), 'r') as inp:
+            with open(paths.model('decision-tree-model.pkl'), 'rb') as inp:
                 cls.model = pickle.load(inp)
         return cls.model
 
@@ -65,14 +65,15 @@ def transformation():
     # Convert from CSV to pandas
     if flask.request.content_type == 'application/json':
         data = flask.request.data.decode('utf-8')
+        print(data)
+        print(type(data))
         data = json.loads(data)
         data = data['data']
+        X_val = pd.DataFrame([data])
     else:
         return flask.Response(response='This predictor only supports JSON data', status=415, mimetype='text/plain')
 
-    print('Invoked with {} records'.format(data.shape[0]))
+    predictions = ScoringService.predict(X_val)
+    result = json.dumps({"prediction": predictions})
 
-    predictions = ScoringService.predict(data)
-
-
-    return flask.Response(response=result, status=200, mimetype='text/csv')
+    return flask.Response(response=result, status=200, mimetype='application/json')
