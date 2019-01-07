@@ -42,6 +42,8 @@ def entry_point():
         train_y = train_data.ix[:,0]
         train_X = train_data.ix[:,1:]
 
+        print(train_X)
+
         # Now use scikit-learn's decision tree classifier to train the model.
         clf = tree.DecisionTreeClassifier(max_leaf_nodes=max_leaf_nodes)
         clf = clf.fit(train_X, train_y)
